@@ -9,6 +9,8 @@
 #include <PubSubClient.h>
 #include "connection.h"
 
+#define ADC_MAX 1023
+
 WiFiClient espClient;
 PubSubClient client(espClient);
 long lastMsg = 0;
@@ -24,7 +26,6 @@ void setup() {
 }
 
 void setup_wifi() {
-
   delay(10);
   // We start by connecting to a WiFi network
   Serial.println();
@@ -64,6 +65,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
 }
 
+
 void reconnect() {
   // Loop until we're reconnected
   while (!client.connected()) {
@@ -85,7 +87,6 @@ void reconnect() {
   }
 }
 void loop() {
-
   if (!client.connected()) {
     reconnect();
   }
