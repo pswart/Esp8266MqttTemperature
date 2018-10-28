@@ -7,5 +7,6 @@
 
 // MQTT broker hostname
 #define MQTT_BROKER "broker.mqtt-dashboard.com"
+#define MQTT_PORT 1883
 
 #endif /* CONNECTION_H */
