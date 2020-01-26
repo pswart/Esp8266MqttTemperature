@@ -2,8 +2,8 @@
 #define CONNECTION_H
 
 // Swifi
-#define WIFI_SSID           "SwartNET"
-#define WIFI_PWD            "onsgaanbraai"
+#define WIFI_SSID           "ssid"
+#define WIFI_PWD            "password"
 #define RECONNECT_PERIOD_MS 2000
 bool b_wifi_ok = false;
 
