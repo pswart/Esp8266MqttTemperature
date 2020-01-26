@@ -1,5 +1,5 @@
 # Esp8266MqttTemperature
-MQTT via Ethernet connected thermometer using ESP8266 with thermistor to sense temperature.
+MQTT via Ethernet connected thermometer using ESP8266 with DHT22 sensor to sense temperature and humidity.
 
 Using Arduino IDE version 1.6.12.
 
@@ -16,4 +16,4 @@ Arduino IDE settings:
   -  Upload Speed: 115200
   -  Programmer: Arduino as ISP
 
-Update connection.h with your wifi SSID and password, and MQTT broker host name.
+Update connection.h with your wifi SSID and password, and MQTT broker host name or IP address.
