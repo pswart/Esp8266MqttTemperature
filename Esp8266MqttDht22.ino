@@ -93,10 +93,10 @@ void display_measurements() {
   else
     display.drawString(90, 22, "M --");
 
-  if (isnan(temperature) || isnan(humidity))
-    display.drawString(90, 43, "S --");
-  else
+  if (b_sensor_ok)
     display.drawString(90, 43, "S Ok");
+  else
+    display.drawString(90, 43, "S --");
   display.setFont(ArialMT_Plain_24);
   display.drawString(0,  2, String(temperature, 1) + "°C");
   display.drawString(0, 36, String(humidity, 1) + "%");
@@ -216,6 +216,10 @@ void reconnect() {
       Serial.print(client.state());
       Serial.println(" try again in 4 seconds");
 
+      // Take measurements
+      take_measurements();
+
+      // Display measurements
       display_measurements();
 
       // Wait before retrying
@@ -230,22 +234,36 @@ void reconnect() {
 void publish_measurements() {
   client.publish(TOPIC_TEMP, String(temperature).c_str(), true);
   client.publish(TOPIC_HUMI, String(humidity).c_str(), true);
-  if (isnan(temperature) || isnan(humidity)) {
+  if (b_sensor_ok)
     client.publish(TOPIC_NAN, String("True").c_str(), true); 
-  }
-  else {
+  else
     client.publish(TOPIC_NAN, String("False").c_str(), true);
-  }
+}
+
+// --------------------------------------------------------------------------------
+// Take temperature and humidity measurements
+// --------------------------------------------------------------------------------
+void take_measurements() {
+  // Read humidity
+  humidity = dht.readHumidity();
+  
+  // Read temperature
+  temperature = dht.readTemperature();
+
+  // Set sensor ok flag
+  if (isnan(temperature) || isnan(humidity))
+    b_sensor_ok = false;
+  else
+    b_sensor_ok = true;
 }
 
 // --------------------------------------------------------------------------------
 // Main loop
 // --------------------------------------------------------------------------------
 void loop() {
-  // Read humidity
-  humidity = dht.readHumidity();
-  // Read temperature
-  temperature = dht.readTemperature();
+  // Take measurements
+  take_measurements();
+  
   // Display measurements
   display_measurements();
   
